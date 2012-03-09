@@ -1,0 +1,11 @@
+Kotti.db*
+kotti_solr.egg-info/
+bin/
+include/
+lib/
+local
+*.pyc
+*.pt.py
+.coverage
+.installed.cfg
+*~
