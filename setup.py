@@ -13,7 +13,10 @@ except IOError:
     README = CHANGES = ''
 
 install_requires = [
+    'httplib2',
     'Kotti',
+    'lxml',
+    'sunburnt',
     ]
 
 test_requires = [
