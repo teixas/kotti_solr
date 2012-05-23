@@ -9,3 +9,8 @@ local
 .coverage
 .installed.cfg
 *~
+/develop-eggs/
+/downloads/
+/eggs/
+/parts/
+/var/
