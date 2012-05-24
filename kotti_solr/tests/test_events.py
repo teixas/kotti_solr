@@ -17,7 +17,7 @@ def test_index_document(solr, db_session):
 
 
 def test_add_document_triggers_indexing(solr, db_session):
-    get_root()['doc'] = Document(title='foo', body=u'bar!', description='foo!')
+    get_root()['doc'] = Document(title=u'foo', body=u'bar!', description=u'foo!')
     db_session.flush()
     results = list(solr.query(title='foo'))
     assert len(results) == 1
