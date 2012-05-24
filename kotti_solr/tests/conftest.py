@@ -8,7 +8,6 @@ settings = {
     'kotti.use_tables': '',
     'kotti.populators': [],
     'pyramid.includes': 'kotti_solr',
-    'sqlalchemy.url': 'sqlite:///%(here)s/Kotti.db',
     'kotti_solr.solr_url': 'http://localhost:8983/solr',
 }
 
