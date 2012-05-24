@@ -1,5 +1,4 @@
 from mr.laforge import up, waitforports, shutdown
-from sunburnt import SolrInterface
 from pyramid.testing import setUp, tearDown
 
 
@@ -30,6 +29,7 @@ def pytest_funcarg__solr(request):
     def setup():
         up('solr')
         waitforports(8983)      # wait for Solr to start up
-        return SolrInterface(settings['kotti_solr.solr_url'])
+        from kotti_solr import get_solr
+        return get_solr(settings['kotti_solr.solr_url'])
     return request.cached_setup(setup=setup,
         teardown=lambda solr: shutdown(), scope='session')
