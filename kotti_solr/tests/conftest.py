@@ -29,7 +29,7 @@ def pytest_funcarg__config(request):
         for include in settings['pyramid.includes'].split():
             config.include(include)
     return request.cached_setup(
-        setup=setup, teardown=tearDown, scope='function')
+        setup=setup, teardown=tearDown, scope='session')
 
 
 def pytest_funcarg__solr_server(request):
