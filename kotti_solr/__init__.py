@@ -1,9 +1,4 @@
 from kotti import get_settings
-from kotti.events import ObjectInsert
-from kotti.events import objectevent_listeners
-from kotti.resources import Document
-
-from kotti_solr.events import add_document_handler
 from sunburnt import SolrInterface
 
 
@@ -15,5 +10,9 @@ def get_solr(url=None):
 
 
 def includeme(config):
+    from kotti.events import ObjectInsert
+    from kotti.events import objectevent_listeners
+    from kotti.resources import Document
+    from kotti_solr.events import add_document_handler
     objectevent_listeners[(ObjectInsert, Document)].append(
         add_document_handler)

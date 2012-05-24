@@ -1,10 +1,8 @@
-from sunburnt import SolrInterface
-from kotti.util import extract_from_settings
+from kotti_solr import get_solr
 
 
 def add_document_handler(event):
-    solr_url = extract_from_settings('kotti_solr.').get('solr_url')
-    si = SolrInterface(solr_url)
+    si = get_solr()
     doc = event.object
     si.add(dict(
             id=u'%s-%s' % (doc.type, doc.id),
