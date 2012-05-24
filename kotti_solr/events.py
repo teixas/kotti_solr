@@ -9,6 +9,6 @@ def add_document_handler(event):
             title=doc.title,
             description=doc.description,
             text=doc.body,
-            last_modified=doc.modification_date.isoformat(),
+            last_modified=doc.modification_date,
             ))
     si.optimize()
