@@ -9,8 +9,12 @@ def get_solr(url=None):
     return SolrInterface(url)
 
 
-def get_default_results(search_term=u'', **kwargs):
+def get_default_results(search_term=u'', request=None):
     return list(get_solr().query(default=search_term))
+
+
+def kotti_configure(settings):
+    settings['kotti.search_content'] = 'kotti_solr.get_default_results'
 
 
 def includeme(config):
