@@ -13,6 +13,7 @@ def test_index_document(solr, db_session):
     results = list(solr.query(title='foo'))
     assert len(results) == 1
     assert results[0]['id'] == 'document-23'
+    assert results[0]['path'] == '/path/'
     # Solr's date values don't take microseconds into account...
     assert abs(results[0]['last_modified'] - now) < timedelta(milliseconds=1)
 
@@ -23,3 +24,4 @@ def test_add_document_triggers_indexing(solr, db_session):
     results = list(solr.query(title='foo'))
     assert len(results) == 1
     assert results[0]['description'] == 'foo!'
+    # TODO: test `path` once the test setup has a request...
