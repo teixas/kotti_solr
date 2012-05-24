@@ -24,11 +24,18 @@ def pytest_funcarg__config(request):
         teardown=tearDown, scope='function')
 
 
-def pytest_funcarg__solr(request):
+def pytest_funcarg__solr_server(request):
     def setup():
         up('solr')
         waitforports(8983)      # wait for Solr to start up
-        from kotti_solr import get_solr
-        return get_solr(settings['kotti_solr.solr_url'])
     return request.cached_setup(setup=setup,
         teardown=lambda solr: shutdown(), scope='session')
+
+
+def pytest_funcarg__solr(request):
+    request.getfuncargvalue('solr_server')
+    from kotti_solr import get_solr
+    solr = get_solr(settings['kotti_solr.solr_url'])
+    solr.delete_all()
+    solr.commit()
+    return solr
