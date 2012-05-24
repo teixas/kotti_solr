@@ -9,6 +9,10 @@ def get_solr(url=None):
     return SolrInterface(url)
 
 
+def get_default_results(search_term=u'', **kwargs):
+    return list(get_solr().query(default=search_term))
+
+
 def includeme(config):
     from kotti.events import ObjectInsert
     from kotti.events import objectevent_listeners
