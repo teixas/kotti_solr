@@ -2,6 +2,7 @@
 *.pyc
 *~
 /.coverage
+/devel.cfg
 /.installed.cfg
 /.mr.developer.cfg
 /Kotti.db*
