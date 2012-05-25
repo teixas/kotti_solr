@@ -1,3 +1,5 @@
+from pyramid.request import Request
+
 from kotti_solr import get_solr
 
 
@@ -11,7 +13,8 @@ def add_document_handler(event):
         if value is not None:
             data[field] = value
     data['id'] = u'%s-%s' % (doc.type, doc.id)      # TODO: discuss! :)
-    if request is not None:
-        data['path'] = request.resource_path(doc)
+    if request is None:
+        request = Request.blank('/')
+    data['path'] = request.resource_path(doc)
     si.add(data)
     si.optimize()
