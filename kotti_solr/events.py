@@ -53,3 +53,10 @@ def update_document_handler(event):
     # si.delete(doc.id)
     #
     add_document_handler(event)
+
+
+def delete_document_handler(event):
+    si = get_solr()
+    doc = event.object
+    si.delete(u'%s-%s' % (doc.type, doc.id))
+    si.optimize()

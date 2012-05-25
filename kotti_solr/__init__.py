@@ -20,11 +20,13 @@ def kotti_configure(settings):
 
 def includeme(config):
     from kotti.events import objectevent_listeners
+    from kotti.events import ObjectDelete
     from kotti.events import ObjectUpdate
     from kotti.resources import Document
 
     from kotti_solr.events import ObjectAfterInsert
     from kotti_solr.events import add_document_handler
+    from kotti_solr.events import delete_document_handler
     from kotti_solr.events import update_document_handler
     from kotti_solr.events import wire_sqlalchemy
 
@@ -33,3 +35,5 @@ def includeme(config):
         add_document_handler)
     objectevent_listeners[(ObjectUpdate, Document)].append(
         update_document_handler)
+    objectevent_listeners[(ObjectDelete, Document)].append(
+        delete_document_handler)

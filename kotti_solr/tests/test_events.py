@@ -3,6 +3,7 @@ from mock import Mock
 
 from kotti.resources import Document, get_root
 from kotti_solr.events import add_document_handler
+from kotti_solr.events import delete_document_handler
 from kotti_solr.events import update_document_handler
 
 
@@ -82,3 +83,30 @@ def test_update_document_triggers_reindexing(solr, db_session, request):
     assert results[0]['id'] == u'document-2'
     assert results[0]['description'] == 'blah!'
     assert results[0]['path'] == request.resource_path(get_root()['doc'])
+
+
+def test_delete_document(solr, db_session):
+    doc = Document(title=u'delete-me', description=u'foo!')
+    doc.id = 3
+    request = Mock(resource_path=lambda _: '/path/')
+    add_document_handler(event=Mock(object=doc, request=request))
+    results = list(solr.query(title='delete-me'))
+    assert len(results) == 1
+    assert results[0]['id'] == 'document-3'
+    assert results[0]['description'] == u'foo!'
+    delete_document_handler(event=Mock(object=doc, request=request))
+    results = list(solr.query(title='delete-me'))
+    assert len(results) == 0
+
+
+def test_delete_document_triggers_unindexing(solr, db_session, request):
+    get_root()['doc'] = Document(title=u'delete-me', description=u'bar!')
+    db_session.flush()
+    results = list(solr.query(title='delete-me'))
+    assert len(results) == 1
+    assert results[0]['id'] == u'document-2'
+    assert results[0]['description'] == 'bar!'
+    del(get_root()['doc'])
+    db_session.flush()
+    results = list(solr.query(title='delete-me'))
+    assert len(results) == 0
