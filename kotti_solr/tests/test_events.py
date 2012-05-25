@@ -65,3 +65,20 @@ def test_update_document(solr, db_session):
     assert len(results) == 1
     assert results[0]['id'] == 'document-3'
     assert results[0]['description'] == u'bar!'
+
+
+def test_update_document_triggers_reindexing(solr, db_session, request):
+    get_root()['doc'] = Document(title=u'bar', description=u'bar!')
+    db_session.flush()
+    results = list(solr.query(title='bar'))
+    assert len(results) == 1
+    assert results[0]['id'] == u'document-2'
+    assert results[0]['description'] == 'bar!'
+    assert results[0]['path'] == request.resource_path(get_root()['doc'])
+    get_root()['doc'].description = u'blah!'
+    db_session.flush()
+    results = list(solr.query(title='bar'))
+    assert len(results) == 1
+    assert results[0]['id'] == u'document-2'
+    assert results[0]['description'] == 'blah!'
+    assert results[0]['path'] == request.resource_path(get_root()['doc'])
