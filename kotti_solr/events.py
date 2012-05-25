@@ -42,3 +42,14 @@ def add_document_handler(event):
     data['path'] = request.resource_path(doc)
     si.add(data)
     si.optimize()
+
+
+def update_document_handler(event):
+    # Since when a document with the same ID is overrided we don't
+    # need to delete by hand or else we just use code below:
+    #
+    # si = get_solr()
+    # doc = event.object
+    # si.delete(doc.id)
+    #
+    add_document_handler(event)

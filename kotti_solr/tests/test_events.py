@@ -3,6 +3,7 @@ from mock import Mock
 
 from kotti.resources import Document, get_root
 from kotti_solr.events import add_document_handler
+from kotti_solr.events import update_document_handler
 
 
 def test_index_document(solr, db_session):
@@ -47,3 +48,20 @@ def test_populate_triggers_indexing(solr, db_session):
     assert results[0]['id'] == 'document-2'
     assert results[0]['description'] == u'blah!'
     assert results[0]['path'] == u'/bar/'
+
+
+def test_update_document(solr, db_session):
+    doc = Document(title=u'foo', description=u'foo!')
+    doc.id = 3
+    request = Mock(resource_path=lambda _: '/path/')
+    add_document_handler(event=Mock(object=doc, request=request))
+    results = list(solr.query(title='foo'))
+    assert len(results) == 1
+    assert results[0]['id'] == 'document-3'
+    assert results[0]['description'] == u'foo!'
+    doc.description = u'bar!'
+    update_document_handler(event=Mock(object=doc, request=request))
+    results = list(solr.query(title='foo'))
+    assert len(results) == 1
+    assert results[0]['id'] == 'document-3'
+    assert results[0]['description'] == u'bar!'

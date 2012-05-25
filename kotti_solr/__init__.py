@@ -1,4 +1,5 @@
 from kotti import get_settings
+
 from sunburnt import SolrInterface
 
 
@@ -19,11 +20,16 @@ def kotti_configure(settings):
 
 def includeme(config):
     from kotti.events import objectevent_listeners
+    from kotti.events import ObjectUpdate
     from kotti.resources import Document
+
     from kotti_solr.events import ObjectAfterInsert
     from kotti_solr.events import add_document_handler
+    from kotti_solr.events import update_document_handler
     from kotti_solr.events import wire_sqlalchemy
 
     wire_sqlalchemy()
     objectevent_listeners[(ObjectAfterInsert, Document)].append(
         add_document_handler)
+    objectevent_listeners[(ObjectUpdate, Document)].append(
+        update_document_handler)
