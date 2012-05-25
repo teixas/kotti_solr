@@ -18,10 +18,10 @@ def test_index_document(solr, db_session):
     assert abs(results[0]['modification_date'] - now) < timedelta(milliseconds=1)
 
 
-def test_add_document_triggers_indexing(solr, db_session):
+def test_add_document_triggers_indexing(solr, db_session, request):
     get_root()['doc'] = Document(title=u'foo', body=u'bar!', description=u'foo!')
     db_session.flush()
     results = list(solr.query(title='foo'))
     assert len(results) == 1
     assert results[0]['description'] == 'foo!'
-    # TODO: test `path` once the test setup has a request...
+    assert results[0]['path'] == request.resource_path(get_root()['doc'])

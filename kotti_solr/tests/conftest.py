@@ -1,5 +1,5 @@
 from mr.laforge import up, waitforports, shutdown
-from pyramid.testing import setUp, tearDown
+from pyramid.testing import setUp, tearDown, DummyRequest
 from kotti.resources import default_get_root
 from kotti.security import principals_factory
 from kotti import testing
@@ -28,8 +28,15 @@ def pytest_funcarg__config(request):
         config = setUp(settings=settings)
         for include in settings['pyramid.includes'].split():
             config.include(include)
+        return config
     return request.cached_setup(
         setup=setup, teardown=tearDown, scope='session')
+
+
+def pytest_funcarg__request(request):
+    config = request.getfuncargvalue('config')
+    config.manager.get()['request'] = request = DummyRequest()
+    return request
 
 
 def pytest_funcarg__solr_server(request):
