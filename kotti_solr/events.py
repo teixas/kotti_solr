@@ -1,6 +1,30 @@
+import sqlalchemy.event
+from sqlalchemy.orm import mapper
 from pyramid.request import Request
+from pyramid.threadlocal import get_current_request
 
+from kotti.events import notify
+from kotti.events import ObjectEvent
 from kotti_solr import get_solr
+
+_WIRED_SQLALCHMEY = False
+
+
+class ObjectAfterInsert(ObjectEvent):
+    pass
+
+
+def _after_insert(mapper, connection, target):
+    notify(ObjectAfterInsert(target, get_current_request()))
+
+
+def wire_sqlalchemy():  # pragma: no cover
+    global _WIRED_SQLALCHMEY
+    if _WIRED_SQLALCHMEY:
+        return
+    else:
+        _WIRED_SQLALCHMEY = True
+    sqlalchemy.event.listen(mapper, 'after_insert', _after_insert)
 
 
 def add_document_handler(event):

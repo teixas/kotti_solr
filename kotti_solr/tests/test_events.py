@@ -24,6 +24,7 @@ def test_add_document_triggers_indexing(solr, db_session, request):
     db_session.flush()
     results = list(solr.query(title='foo'))
     assert len(results) == 1
+    assert results[0]['id'] == u'document-2'
     assert results[0]['description'] == 'foo!'
     assert results[0]['path'] == request.resource_path(get_root()['doc'])
 
@@ -43,5 +44,6 @@ def test_populate_triggers_indexing(solr, db_session):
     db_session.flush()
     results = list(solr.query(title='bar'))
     assert len(results) == 1
+    assert results[0]['id'] == 'document-2'
     assert results[0]['description'] == u'blah!'
     assert results[0]['path'] == u'/bar/'

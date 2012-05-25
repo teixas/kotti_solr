@@ -18,9 +18,12 @@ def kotti_configure(settings):
 
 
 def includeme(config):
-    from kotti.events import ObjectInsert
     from kotti.events import objectevent_listeners
     from kotti.resources import Document
+    from kotti_solr.events import ObjectAfterInsert
     from kotti_solr.events import add_document_handler
-    objectevent_listeners[(ObjectInsert, Document)].append(
+    from kotti_solr.events import wire_sqlalchemy
+
+    wire_sqlalchemy()
+    objectevent_listeners[(ObjectAfterInsert, Document)].append(
         add_document_handler)
