@@ -40,7 +40,7 @@ class PyTest(Command):
         raise SystemExit(errno)
 
 setup(name='kotti_solr',
-      version='0.1',
+      version='0.1.1dev',
       description="Solr integration for Kotti",
       long_description='\n\n'.join([README, CHANGES]),
       classifiers=[
