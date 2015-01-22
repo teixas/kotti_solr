@@ -2,6 +2,10 @@
 kotti_solr
 ==========
 
+.. image:: https://pypip.in/version/kotti_solr/badge.svg
+    :target: https://pypi.python.org/pypi/kotti_solr/
+    :alt: Latest Version
+
 This is an extension for `Kotti`_ that provides integration with
 `Solr`_ search engine.
 
