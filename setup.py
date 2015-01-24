@@ -17,7 +17,7 @@ install_requires = [
     'Kotti',
     'lxml',
     'sunburnt',
-    ]
+]
 
 test_requires = [
     'pytest',
@@ -40,17 +40,17 @@ class PyTest(Command):
         raise SystemExit(errno)
 
 setup(name='kotti_solr',
-      version='0.1.1dev',
+      version='0.1.1',
       description="Solr integration for Kotti",
       long_description='\n\n'.join([README, CHANGES]),
       classifiers=[
-        "Programming Language :: Python",
-        "Framework :: Pylons",
-        "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        "License :: Repoze Public License",
-        ],
+          "Programming Language :: Python",
+          "Framework :: Pylons",
+          "Topic :: Internet :: WWW/HTTP",
+          "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+          "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
+          "License :: Repoze Public License",
+      ],
       keywords='solr kotti cms pylons pyramid',
       author='Kotti developers',
       author_email='kotti@googlegroups.com',
