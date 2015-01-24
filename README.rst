@@ -14,9 +14,9 @@ When this extension is active, it will automatically post updates to a Solr inst
 Setup
 -----
 
-1. `pip install kotti_solr`. 
+1. ``pip install kotti_solr``. 
 2. Set the Solr instance URL with the ``kotti_solr.solr_url`` configuration setting. 
-3. Add `kotti_solr.kotti_configure` to `kotti.configurators`. 
+3. Add ``kotti_solr.kotti_configure`` to ``kotti.configurators``. 
 
 
 .. _Kotti: http://pypi.python.org/pypi/Kotti
